@@ -1,8 +1,6 @@
-// const express = require('express');
 const mongoose = require('mongoose');
-// const app = express();
 const connectToMongo = () => {
-    mongoose.connect("mongodb://127.0.0.1/react",{
+    mongoose.connect("mongodb://127.0.0.1/react",{ //  /react will create react name db in the mongodb compass
         useNewUrlParser:true,useUnifiedTopology:true
     });
     console.log("Connected to MongoDB Succesfully");
