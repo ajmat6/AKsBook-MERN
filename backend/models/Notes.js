@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const NotesSchema = new mongoose.Schema({ 
+    user:{
+        type: mongoose.Schema.Types.ObjectId, //mongoose jo variable banaya usme se objectid 
+        ref: 'user' // giving user model of the mongoose variable as the reference model here
+    },
     title:{
         type: String,
         required: true
     },
-    desciption:{
+    description:{
         type: String,
         required: true
     },
