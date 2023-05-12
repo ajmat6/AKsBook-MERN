@@ -7,8 +7,8 @@ const router = express.Router(); //similar like express() but this is used when 
 
 const JWT_SECRET = "kathatajmatajmatkathat";
 
-//Create a user using: POST "api/auth" -> is end point par
-router.post('/',[ //creating an array of the validation
+//Create a user using: POST "api/auth/createuser" -> iss end point par
+router.post('/createuser',[ //creating an array of the validation
     body('username', 'Enter a valid Username').notEmpty(), //username should not be empty and the second '' in the body is the error message that you can give if username is empty.
     body('email', 'Enter a valid Email Address').isEmail(), // validation for the email
     body('password', 'Minimum length of the Password should be 8 characters').isLength({min: 8}), // password length should be minimum 8 characters
@@ -16,9 +16,9 @@ router.post('/',[ //creating an array of the validation
     // res.json(obj); //sends json response
 
     // validation result khalli nahi he matlab error he therefore sending error to the user . Below is used for meeting the validation mentioned above
-    const result = validationResult(req);
-    if (!result.isEmpty()) { 
-       return res.status(400).json({ errors: result.array() });
+    const error = validationResult(req);
+    if (!error.isEmpty()) { 
+       return res.status(400).json({ errors: error.array() });
     }
 
     //Putting entire new user creation into try catch statements so that any error occurs other than valid user creation than those error can be known to us.
@@ -65,11 +65,56 @@ router.post('/',[ //creating an array of the validation
         res.json(authToken);
     } catch (error) {
         console.log(error.message); //method to print the error (error.message)
-        res.status(500).send("some error ocurred");
+        res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
     }
 
     // const user = User(req.body); // request me jo data aa raha he sending it to the schema of User.js
     // user.save(); //and then saving it and it will create react name db and users name collection in the db
 })
+
+// Authenticating a user : /api/auth/login
+router.post('/login',[
+    body('email', 'Enter a valid Email Address').isEmail(), // only using email for the authentication of the user
+    body('password', 'Password cannot be blank').exists() // exists is used for making sure that password is not empty
+], async (req,res) => {
+    //if there are errors return bad request and the errors
+    const error = validationResult(req);
+    if (!error.isEmpty()) { 
+       return res.status(400).json({ errors: error.array() });
+    }
+
+    const {email, password} = req.body; //extracting email and password from req.body
+
+    //trying to fetch the details of the user if exists:
+    try
+    {
+        //email verification:
+        let user = await User.findOne({email});
+        if(!user)
+        {
+            return res.status(400).json({"error": "Please try to login with correct Credentials"});
+        }
+
+        //password verification:
+        const passwordCompare = await bcrypt.compare(password, user.password) // comparing entered password with password of the user
+        if(!passwordCompare)
+        {
+            return res.status(400).json({"error": "Please try to login with correct Credentials"});
+        }
+
+        //if user details are true, then sending the token to the user:
+        const data = {
+            id: user.id
+        }
+
+        const authToken = jwt.sign(data, JWT_SECRET);
+        res.json(authToken);
+    }
+    catch (error)
+    {
+        console.log(error.message);
+        res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
+    }
+});
 
 module.exports = router;
