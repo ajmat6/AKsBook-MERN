@@ -3,6 +3,7 @@ const User = require('../models/User');
 const { body, validationResult } = require('express-validator'); // Importing the express validator
 const bcrypt = require('bcryptjs'); //importing bcryptjs for password hashing
 const jwt = require('jsonwebtoken'); // importing jwt for sending token to the user
+const fetchuser = require('../middleware/fetchuser'); // importing fetchuser middleware
 const router = express.Router(); //similar like express() but this is used when we make an specilized .js file for routing so as to make our main .js file less complex
 
 const JWT_SECRET = "kathatajmatajmatkathat";
@@ -57,7 +58,9 @@ router.post('/createuser',[ //creating an array of the validation
 
         //Token data that we want to send to the user (here id of the user)
         const data = {
-            id: user.id
+            user:{
+                id: user.id
+            }
         }
 
         const authToken = jwt.sign(data, JWT_SECRET); // here first argument is payload that you want to send to the user (here we are sending id of the user) and second argument is the secret web token
@@ -71,6 +74,8 @@ router.post('/createuser',[ //creating an array of the validation
     // const user = User(req.body); // request me jo data aa raha he sending it to the schema of User.js
     // user.save(); //and then saving it and it will create react name db and users name collection in the db
 })
+
+
 
 // Authenticating a user : /api/auth/login
 router.post('/login',[
@@ -104,13 +109,34 @@ router.post('/login',[
 
         //if user details are true, then sending the token to the user:
         const data = {
-            id: user.id
+            user:{
+                id: user.id
+            }
         }
 
         const authToken = jwt.sign(data, JWT_SECRET);
         res.json(authToken);
     }
     catch (error)
+    {
+        console.log(error.message);
+        res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
+    }
+});
+
+
+// Middleware: Middleware here is any function which will be called when any of the login required end point is hit;
+// Below fetchuser is the middleware used
+
+//End point for user details (login is required first for this): /api/auth/getuser
+router.post('/getuser', fetchuser, async (req,res) => {
+    try
+    {
+        let userId = req.user.id;
+        const user = await User.findById(userId);
+        res.send(user);
+    }
+    catch(error)
     {
         console.log(error.message);
         res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
