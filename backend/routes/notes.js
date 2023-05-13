@@ -57,44 +57,83 @@ router.post('/addnote', fetchuser, [
 router.put('/updatenote/:id', fetchuser, async (req,res) => {
     const {title, description, tag} = req.body;
 
-    //Create a new note:
-    const newnote = {};
+    try
+    {
+        //Create a new note:
+        const newnote = {};
+        
+        // if you are getting title, description and tag then adding it to newnote;
+        if(title)
+        {
+            newnote.title = title;
+        }
     
-    // if you are getting title, description and tag then adding it to newnote;
-    if(title)
-    {
-        newnote.title = title;
+        if(description)
+        {
+            newnote.description = description;
+        }
+    
+        if(tag)
+        {
+            newnote.tag = tag;
+        }
+    
+        //Now find the note to be updated and update it:
+        let note = await Note.findByIdAndUpdate(req.params.id); // here params.id is notes id and it will be recieved in the path of the put request(thats why req.params)
+    
+        // if the requested above note does not exist:
+        if(!note)
+        {
+            return res.status(404).send("Not Found");
+        }
+    
+        // if the current user is trying to access other user's note(checking for the user):
+        if(note.user.toString() !== req.user.id) // user is a parameter in Notes model and converting it into a string (this is user id)
+        {
+            return res.status(401).send("Not Allowed");
+        }
+    
+        // Now you have verified the user and also the requested note exist, So now update that note:
+        note = await Note.findByIdAndUpdate(req.params.id, {$set: newnote}, {new:true}) // set will set the updatede note and new will update it so you are making it true
+    
+        res.json(note);
     }
-
-    if(description)
-    {
-        newnote.description = description;
+    catch (error) {
+        console.log(error.message); //method to print the error (error.message)
+        res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
     }
+});
 
-    if(tag)
+
+
+// Endpoint to Delete a note: DELETE(for deleting) -> /api/notes/deletenote/:id -> login required
+router.delete('/deletenote/:id', fetchuser, async (req,res) => {
+    try
     {
-        newnote.tag = tag;
+        // Find the note to be deleted and delete it:
+        let note = await Note.findByIdAndUpdate(req.params.id); // here params.id is notes id and it will be recieved in the path of the put request(thats why req.params)
+    
+        // if the requested above note does not exist:
+        if(!note)
+        {
+            return res.status(404).send("Not Found");
+        }
+    
+        // if the current user is trying to access other user's note(checking for the user):
+        if(note.user.toString() !== req.user.id) // user is a parameter in Notes model and converting it into a string (this is user id)
+        {
+            return res.status(401).send("Not Allowed");
+        }
+    
+        // Now you have verified the user and also the requested note exist, So now update that note:
+        note = await Note.findByIdAndDelete(req.params.id) // Finding and then deleting the note
+    
+        res.json({"Success": "Note has been successfully Deleted", note: note}); 
     }
-
-    //Now find the note to be updated and update it:
-    let note = await Note.findByIdAndUpdate(req.params.id); // here params.id is notes id and it will be recieved in the path of the put request(thats why req.params)
-
-    // if the requested above not does not exist:
-    if(!note)
-    {
-        return res.status(404).send("Not Found");
+    catch (error) {
+        console.log(error.message); //method to print the error (error.message)
+        res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
     }
-
-    // if the current user is trying to access other user's note(checking for the user):
-    if(note.user.toString() !== req.user.id) // user is a parameter in Notes model and converting it into a string (this is user id)
-    {
-        return res.status(401).send("Not Allowed");
-    }
-
-    // Now you have verified the user and also the requested note exist, So now update that note:
-    note = await Note.findByIdAndUpdate(req.params.id, {$set: newnote}, {new:true}) // set will set the updatede note and new will update it so you are making it true
-
-    res.json(note);
 });
 
 module.exports = router;
