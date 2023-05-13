@@ -129,12 +129,12 @@ router.post('/login',[
 // Below fetchuser is the middleware used
 
 //End point for user details (login is required first for this): /api/auth/getuser
-router.post('/getuser', fetchuser, async (req,res) => {
+router.post('/getuser', fetchuser, async (req,res) => { // below is the next part of the fetchuser middleware
     try
     {
-        let userId = req.user.id;
-        const user = await User.findById(userId);
-        res.send(user);
+        let userId = req.user.id; // as we send this to the user when it logins into its account
+        const user = await User.findById(userId); // finding that user
+        res.send(user); //sending user details
     }
     catch(error)
     {
