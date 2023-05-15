@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import NoteContext from "../context/notes/NoteContext";
+import React from "react";
+import Notes from "./Notes";
 
 function Home() {
-    const notecontext = useContext(NoteContext);
-    const {notes, setnotes} = notecontext; // DEstructuring in the notecontext context as it has passed two values
   return (
     <div>
-      <div className="container my-3">
+      <div className="container col-md-10 my-3">
         <h1>Add Note</h1>
         <form className="my-3">
           <div className="mb-3">
@@ -47,12 +45,10 @@ function Home() {
             Submit
           </button>
         </form>
-        <h1 className="my-3">Your Notes</h1>
-
-        {notes.map((note) => {// mapping in the initial state value of the notes
-            return note.title;
-        })}
+      {/* Notes component */}
+      <Notes /> 
       </div>
+
     </div>
   );
 }
