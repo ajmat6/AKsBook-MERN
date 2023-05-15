@@ -4,7 +4,7 @@ import NoteContext from "./NoteContext"; // importing noteContext context
 const NoteState = (props) => {
     const Notes = [ // Hardcoding the notes for the testing
         {
-          "_id": "645e6e98a64231a3e8da380a",
+          "_id": "645e6e98a64231a32e8da380a",
           "user": "645e2cf312c8c25165506c70",
           "title": "This is new note",
           "description": "This is the description of the first note created by me and I hope it will work",
@@ -13,7 +13,7 @@ const NoteState = (props) => {
           "__v": 0
         },
         {
-          "_id": "645f7b40fff3bc8f1f6e61ac",
+          "_id": "645f7b40fff3bcg8f1f6e61ac",
           "user": "645e2cf312c8c25165506c70",
           "title": "This is new note 2",
           "description": "This is the description of the first note created by me and I hope it will work 2",
@@ -22,7 +22,7 @@ const NoteState = (props) => {
           "__v": 0
         },
         {
-          "_id": "645f7b80fff3bc8f1f6e61b1",
+          "_id": "645f7b80fff3bc38f1f6e61b1",
           "user": "645e2cf312c8c25165506c70",
           "title": "This is new note 2",
           "description": "This is the description of the first note created by me and I hope it will work 2",
@@ -31,7 +31,7 @@ const NoteState = (props) => {
           "__v": 0
         },
         {
-          "_id": "645f7b80fff3bc8f1f6e61b3",
+          "_id": "645f7b80fff3b4c8f1f6e61b3",
           "user": "645e2cf312c8c25165506c70",
           "title": "This is new note 2",
           "description": "This is the description of the first note created by me and I hope it will work 2",
@@ -40,7 +40,7 @@ const NoteState = (props) => {
           "__v": 0
         },
         {
-          "_id": "645f7b80fff3bc8f1f6e61b3",
+          "_id": "645f7b80fff3bc8f15f6e61ub3",
           "user": "645e2cf312c8c25165506c70",
           "title": "This is new note 2",
           "description": "This is the description of the first note created by me and I hope it will work 2",
@@ -49,7 +49,7 @@ const NoteState = (props) => {
           "__v": 0
         },
         {
-            "_id": "645f7b80fff3bc8f1f6e61b3",
+            "_id": "645f7b80fff3bc85f1f6e61b83",
             "user": "645e2cf312c8c25165506c70",
             "title": "This is new note 2",
             "description": "This is the description of the first note created by me and I hope it will work 2",
@@ -58,7 +58,7 @@ const NoteState = (props) => {
             "__v": 0
         },
         {
-            "_id": "645f7b80fff3bc8f1f6e61b3",
+            "_id": "645f7b80fff3bc85f1f61e61b3",
             "user": "645e2cf312c8c25165506c70",
             "title": "This is new note 2",
             "description": "This is the description of the first note created by me and I hope it will work 2",

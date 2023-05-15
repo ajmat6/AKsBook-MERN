@@ -11,7 +11,7 @@ function Notes() {
             <h1 className="my-3">Your Notes</h1>
             {notes.map((note) => {
                 // mapping of the notes and sending it as a prop to NoteItem component
-                return <NoteItem note={note}/>
+                return <NoteItem key={note._id} note={note}/>
             })}
         </div>
     </div>
