@@ -8,18 +8,18 @@ import NoteState from "./context/notes/NoteState"; // importing NoteState State
 function App() {
   return (
     <>
+      {/* Below all is wrapped in Notestate state-context so all of the below components and their conmponents can use state value passed by the NoteState state-context */}
+      <NoteState>
       <BrowserRouter>
-        {/* Below all is wrapped in Notestate state-context so all of the below components and their conmponents can use state value passed by the NoteState state-context */}
-        <NoteState>
-          <Navbar />
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </div>
-        </NoteState>
+        <Navbar />
+        <div className="container">
+          <Routes>
+            <Route path="/about" element={<About />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </BrowserRouter>
+      </NoteState>
     </>
   );
 }
