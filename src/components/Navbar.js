@@ -5,7 +5,7 @@ const Navbar = () => {
   let location = useLocation();
 
   useEffect(() => {
-    console.log(location.pathname); // will give the path of the current location (\, \about etc)
+    // console.log(location.pathname); // will give the path of the current location (\, \about etc)
   }, [location]);
   return (
     <div>

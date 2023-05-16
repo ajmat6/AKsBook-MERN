@@ -1,5 +1,4 @@
-import React, { useContext, useEffect} from 'react' // importing useContext hook to use context state values
-// import NoteContext from '../context/notes/NoteContext'
+import React from 'react'
 
 
 const About = () => {    
