@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import NoteContext from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
+import AddNote from "./AddNote";
 
 function Notes() {
     const notecontext = useContext(NoteContext);
-    const {notes, setnotes} = notecontext; // DEstructuring in the notecontext context as it has passed two values
+    const {notes, addnote} = notecontext; // DEstructuring in the notecontext context as it has passed two values
   return (
+    <>
+    <AddNote />
     <div>
         <div className="row">
             <h1 className="my-3">Your Notes</h1>
@@ -15,6 +18,7 @@ function Notes() {
             })}
         </div>
     </div>
+    </>
   );
 }
 
