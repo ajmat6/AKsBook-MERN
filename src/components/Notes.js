@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import NoteContext from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 
 function Notes() {
     const notecontext = useContext(NoteContext);
-    const {notes, addnote} = notecontext; // DEstructuring in the notecontext context as it has passed two values
+    const {notes, fetchNote} = notecontext; // Destructuring in the notecontext context as it has passed two values
+    useEffect(() => {
+      fetchNote(); // calling the fetch notes function once
+    }, [])
+    
   return (
     <>
     <AddNote />
