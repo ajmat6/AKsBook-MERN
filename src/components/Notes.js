@@ -12,21 +12,22 @@ function Notes() {
   }, [])
 
   const ref = useRef(null); // useRef hook is used to take reference of a particular element (here setting the initial value of it as null)
-  
-  const [note, setnote] = useState({etitle: "", edescription: "", etag: ""});// here to make modal title, description and tag different from that of adding one, you had given name of their input tag as etitle, edescription and etag
+  const refClose = useRef(null);
+
+  const [note, setnote] = useState({id: "", etitle: "", edescription: "", etag: ""});// here to make modal title, description and tag different from that of adding one, you had given name of their input tag as etitle, edescription and etag
   const updateNotes = (currentNote) => {
     console.log("Update note is clicked")
     ref.current.click(); // will toggle the modal -> it will hide it if it is showing and will show it if it is hidden
-    setnote({etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag});
+    setnote({id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag});
   }
 
 
 
   // handling the event when a note is submitted
   const handleUpdate = (e) => {
-    e.preventDefault();
     console.log("update button clicked and note is getting updated")
-    editNote(note._id, note.etitle, note.ediscription, note.etag);
+    editNote(note.id, note.etitle, note.ediscription, note.etag);
+    // refClose.current.click();
   };
 
   const onChange = (e) => {
@@ -99,7 +100,7 @@ function Notes() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleUpdate}>Update Note</button>
+              <button type="button" className="btn btn-primary" ref={refClose} data-bs-dismiss="modal" onClick={handleUpdate}>Update Note</button>
             </div>
           </div>
         </div>

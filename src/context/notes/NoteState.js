@@ -20,6 +20,7 @@ const NoteState = (props) => {
           body: JSON.stringify({title, description, tag}),
         });
         const json = response.json(); // will parse the value as json
+        console.log(json);
 
         //logic to delete a note in frontend
         console.log("adding note");
@@ -36,7 +37,7 @@ const NoteState = (props) => {
       }
 
       //fetch all notes a note:
-      const fetchNote = async (title, description, tag) => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
+      const fetchNote = async () => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
         // API call to add the note in the backend
         //see fetch API notes
         const response = await fetch(`${host}/api/notes/fetchallnotes`, {
@@ -71,13 +72,16 @@ const NoteState = (props) => {
         console.log("Deleting note with id " + id);
         const newNotes = notes.filter((note) => {return note._id !== id}); // filtering the note which you want to delete
         setnotes(newNotes);
+
+        const json = response.json();
+        console.log(json);
       }
 
       //Edit a note:
       const editNote = async (id, title, description, tag) => {
         // API call to edit the note in the backend
         const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-            method: "POST",
+            method: "PUT",
             // setting headers as content-type and auth-token required by the edit endpoint in backend
             headers: {
               "Content-Type": "application/json",
@@ -86,17 +90,22 @@ const NoteState = (props) => {
             body: JSON.stringify({title, description, tag}),
           });
           const json = response.json(); // will parse the value as json
+          console.log(json);
+
+          const newNotes = JSON.parse(JSON.stringify(Notes)); // this is used to make a deep copy of the Notes array object so that below 
 
         //logic to edit a note in frontend
-        for (let index = 0; index < Notes.length; index++) {
-          const element = Notes[index];
-          if(element._id === id)
+        for (let index = 0; index < newNotes.length; index++) {
+          // const element = Notes[index];
+          if(newNotes[index]._id === id)
           {
-            element.title =  title;
-            element.description =  description;
-            element.tag =  tag;
+            newNotes[index].title =  title;
+            newNotes[index].description =  description;
+            newNotes[index].tag =  tag;
+            break;
           }
         }
+        setnotes(newNotes);
       }
 
     return(
