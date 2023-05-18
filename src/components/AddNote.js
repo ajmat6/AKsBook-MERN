@@ -33,7 +33,8 @@ function AddNote() {
               id="title"
               name="title"
               aria-describedby="emailHelp"
-              onChange={onChange} // handling the change event of the input tag(if it is filled)
+            //   handling the change event of the input tag(if it is filled)
+              onChange={onChange} 
             />
           </div>
           <div className="mb-3">
@@ -48,17 +49,18 @@ function AddNote() {
               onChange={onChange}
             />
           </div>
-          {/* <div className="mb-3 form-check">
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">
+              Tag
+            </label>
             <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
+              type="text"
+              className="form-control"
+              id="tag"
+              name="tag"
               onChange={onChange}
             />
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Check me out
-            </label>
-          </div> */}
+          </div>
           <button
             type="submit"
             className="btn btn-primary"

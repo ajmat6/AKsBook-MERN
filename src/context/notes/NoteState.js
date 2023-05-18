@@ -10,10 +10,9 @@ const NoteState = (props) => {
       //Add a note:
       const addNote = async (title, description, tag) => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
         // API call to add the note in the backend
-        //see fetch API notes
         const response = await fetch(`${host}/api/notes/addnote`, {
           method: "POST",
-          // setting headers as content-type and auth-token required by the update endpoint in backend
+          // setting headers as content-type and auth-token required by the add endpoint in backend
           headers: {
             "Content-Type": "application/json",
             "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1ZTJjZjMxMmM4YzI1MTY1NTA2YzcwIn0sImlhdCI6MTY4MzkwNDg3Nn0.xNvgpvozThHdiZpXkgH3eafAIWViGu3IcAgUG7s05Lk"
@@ -57,8 +56,16 @@ const NoteState = (props) => {
       }
 
       //Delete a note:
-      const deleteNote = (id) => {
-        // todo: API call
+      const deleteNote = async (id) => {
+        // API call to delete the note in the backend
+        const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+          method: "DELETE",
+          // setting headers as content-type and auth-token required by the delete endpoint in backend
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1ZTJjZjMxMmM4YzI1MTY1NTA2YzcwIn0sImlhdCI6MTY4MzkwNDg3Nn0.xNvgpvozThHdiZpXkgH3eafAIWViGu3IcAgUG7s05Lk"
+          },
+        });
 
         //logic to delete a note
         console.log("Deleting note with id " + id);
@@ -68,11 +75,10 @@ const NoteState = (props) => {
 
       //Edit a note:
       const editNote = async (id, title, description, tag) => {
-        // API call to update the note in the backend
-        //see fetch API notes
+        // API call to edit the note in the backend
         const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
             method: "POST",
-            // setting headers as content-type and auth-token required by the update endpoint in backend
+            // setting headers as content-type and auth-token required by the edit endpoint in backend
             headers: {
               "Content-Type": "application/json",
               "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1ZTJjZjMxMmM4YzI1MTY1NTA2YzcwIn0sImlhdCI6MTY4MzkwNDg3Nn0.xNvgpvozThHdiZpXkgH3eafAIWViGu3IcAgUG7s05Lk"
