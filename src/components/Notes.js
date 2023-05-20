@@ -100,14 +100,20 @@ function Notes() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" ref={refClose} data-bs-dismiss="modal" onClick={handleUpdate}>Update Note</button>
+              <button type="button" className="btn btn-primary" ref={refClose} data-bs-dismiss="modal" onClick={handleUpdate} disabled={note.etitle.length < 5 || note.edescription.length < 15}>Update Note</button>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <div className="row">
+        <div className="container row">
           <h1 className="my-3">Your Notes</h1>
+
+          {/* if there are no notes */}
+          <div className="container">
+            {notes.length === 0 && 'No Notes to Display!'}
+          </div>
+
           {notes.map((note) => {
             // mapping of the notes and sending it as a prop to NoteItem component
             // passing updateNote modal as a prop to the NoteItem component

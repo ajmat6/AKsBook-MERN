@@ -7,35 +7,6 @@ const NoteState = (props) => {
 
       const [notes,setnotes] = useState(Notes) // setting the initial state as our hardcord above notes
 
-      //Add a note:
-      const addNote = async (title, description, tag) => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
-        // API call to add the note in the backend
-        const response = await fetch(`${host}/api/notes/addnote`, {
-          method: "POST",
-          // setting headers as content-type and auth-token required by the add endpoint in backend
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1ZTJjZjMxMmM4YzI1MTY1NTA2YzcwIn0sImlhdCI6MTY4MzkwNDg3Nn0.xNvgpvozThHdiZpXkgH3eafAIWViGu3IcAgUG7s05Lk"
-          },
-          body: JSON.stringify({title, description, tag}),
-        });
-        const json = response.json(); // will parse the value as json
-        console.log(json);
-
-        //logic to delete a note in frontend
-        console.log("adding note");
-        const note = {
-          "_id": "645f7b80fff3bc85f1f61e61b3",
-          "user": "645e2cf312c8c25165506c70",
-          "title": title,
-          "description": description,
-          "tag": tag,
-          "date": "2023-05-13T11:58:56.481Z",
-          "__v": 0
-          }
-          setnotes(Notes.concat(note));// concat returns an array after adding and push updates an array. It will give error in the notes.map if push function is used.
-      }
-
       //fetch all notes a note:
       const fetchNote = async () => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
         // API call to add the note in the backend
@@ -56,6 +27,29 @@ const NoteState = (props) => {
         setnotes(json);
       }
 
+
+      //Add a note:
+      const addNote = async (title, description, tag) => { // note will take title, description and tag. All the other things will happen by iteself like user(send through header) and date etc
+        // API call to add the note in the backend
+        const response = await fetch(`${host}/api/notes/addnote`, {
+          method: "POST",
+          // setting headers as content-type and auth-token required by the add endpoint in backend
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1ZTJjZjMxMmM4YzI1MTY1NTA2YzcwIn0sImlhdCI6MTY4MzkwNDg3Nn0.xNvgpvozThHdiZpXkgH3eafAIWViGu3IcAgUG7s05Lk"
+          },
+          body: JSON.stringify({title, description, tag}),
+        });
+
+        //logic to add a note in frontend
+        console.log("adding note");
+        const note = await response.json(); // will parse the value as json
+        console.log(note);
+        setnotes(Notes.concat(note));// concat returns an array after adding and push updates an array. It will give error in the notes.map if push function is used.
+        fetchNote();
+      }
+
+
       //Delete a note:
       const deleteNote = async (id) => {
         // API call to delete the note in the backend
@@ -73,7 +67,7 @@ const NoteState = (props) => {
         const newNotes = notes.filter((note) => {return note._id !== id}); // filtering the note which you want to delete
         setnotes(newNotes);
 
-        const json = response.json();
+        const json = await response.json();
         console.log(json);
       }
 
@@ -90,7 +84,9 @@ const NoteState = (props) => {
             body: JSON.stringify({title, description, tag}),
           });
           const json = response.json(); // will parse the value as json
-          console.log(json);
+          // console.log(json);
+
+          fetchNote();
 
           const newNotes = JSON.parse(JSON.stringify(Notes)); // this is used to make a deep copy of the Notes array object so that below 
 
