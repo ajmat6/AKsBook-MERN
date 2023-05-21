@@ -1,9 +1,53 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 function SignUp() {
+  const [credentials, setcredentials] = useState({username:"", email:"", password:"", cpassword:""});
+  let navigate = useNavigate();
+
+  const handleSignUpSubmit = async (e) => {
+        e.preventDefault();
+        const response = await fetch('http://localhost:5001/api/auth/createuser', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({username: credentials.username, email: credentials.email, password: credentials.password}),
+          });
+          const json = await response.json();
+          console.log(json);  
+          
+          // redirecting to the main page after sign up:
+          localStorage.setItem('token', json.authToken); // storing authtoken of the user in the localStorage
+          navigate('/') // directing to home page after sign up
+  }
+  
+  const onChange = (e) => {
+    setcredentials({...credentials, [e.target.name]: e.target.value}) // this will set the value in the email as you enter an email in the input tags
+  }
+
   return (
     <div>
-      I am sign up
+      <form className='container col-md-3 my-5' onSubmit={handleSignUpSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="text" className="form-label">Username</label>
+                    <input type="email" className="form-control" id="username" name='username' aria-describedby="emailHelp" value={credentials.username} onChange={onChange}/>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input type="email" className="form-control" id="email" name='email' aria-describedby="emailHelp" value={credentials.email} onChange={onChange}/>
+                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input type="password" className="form-control" id="password" name='password' value={credentials.password} onChange={onChange}/>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="cpassword" className="form-label">Confirm Password</label>
+                    <input type="password" className="form-control" id="password" name='cpassword' value={credentials.password} onChange={onChange}/>
+                </div>
+                <button type="submit" className="btn btn-primary">Login</button>
+      </form>
     </div>
   )
 }
