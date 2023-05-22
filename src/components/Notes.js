@@ -3,7 +3,7 @@ import NoteContext from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 
-function Notes() {
+function Notes(props) {
   const notecontext = useContext(NoteContext);
   const { notes, fetchNote, editNote } = notecontext; // Destructuring in the notecontext context as it has passed two values
   useEffect(() => {
@@ -22,12 +22,12 @@ function Notes() {
   }
 
 
-
   // handling the event when a note is submitted
   const handleUpdate = (e) => {
     console.log("update button clicked and note is getting updated")
     editNote(note.id, note.etitle, note.ediscription, note.etag);
     // refClose.current.click();
+    props.showalert("Note Updated Successfully!", "success"); // alert for updating the note
   };
 
   const onChange = (e) => {
@@ -36,7 +36,7 @@ function Notes() {
 
   return (
     <>
-      <AddNote />
+      <AddNote showalert={props.showalert}/>
 
       {/* Edit Modal for the note */}
       {/* Passing ref to this button for the toggling of the modal */}
@@ -117,7 +117,7 @@ function Notes() {
           {notes.map((note) => {
             // mapping of the notes and sending it as a prop to NoteItem component
             // passing updateNote modal as a prop to the NoteItem component
-            return <NoteItem key={note._id} updateNotes={updateNotes} note={note} />
+            return <NoteItem key={note._id} updateNotes={updateNotes} note={note} showalert={props.showalert}/>
           })}
         </div>
       </div>

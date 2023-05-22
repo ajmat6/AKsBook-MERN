@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import NoteContext from "../context/notes/NoteContext";
 
-function AddNote() {
+function AddNote(props) {
   const context = useContext(NoteContext);
   const { addNote } = context; // Destructuring in the notecontext context as it has passed two values
 
@@ -12,6 +12,7 @@ function AddNote() {
     e.preventDefault();
     addNote(note.title, note.description, note.tag); // running addnote function and giving it title description and tag through note state
     setnote({title: "", description: "", tag: ""});
+    props.showalert("Note Added Successfully!", "success");
   };
 
   const onChange = (e) => {

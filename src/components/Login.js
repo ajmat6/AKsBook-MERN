@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 
-function Login() {
+function Login(props) {
     const [credentials, setcredentials] = useState({email:"", password:""});
 
     // useNavigate() hook is used for the navigation from the current page to the directed page
@@ -23,13 +23,14 @@ function Login() {
           if(json.success)
           {
             //redirect
-            localStorage.setItem('token', json.authToken);
+            localStorage.setItem('token', json.authToken); // storing authtoken of the user in the localStorage
+            props.showalert("Logged in Successfully!", "success");
             navigate('/') // directing to the home page if login credentials are valid
-
           }
           else
           {
-            alert("Enter valid Credentials");
+            // alert("Enter valid Credentials"); // showing alert if wrong credentials are provided
+            props.showalert("Invalid Credentials!", "danger");
           }
     }
     
