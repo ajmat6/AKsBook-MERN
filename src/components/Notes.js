@@ -2,12 +2,22 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteContext from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
+import {useNavigate} from 'react-router-dom'
 
 function Notes(props) {
+  let navigate = useNavigate(); // useNavigate hook
+
   const notecontext = useContext(NoteContext);
   const { notes, fetchNote, editNote } = notecontext; // Destructuring in the notecontext context as it has passed two values
   useEffect(() => {
-    fetchNote(); // calling the fetch notes function once
+    if(localStorage.getItem('token'))
+    {
+      fetchNote(); // calling the fetch notes function once
+    }
+    else
+    {
+      navigate('/login')
+    }
     // eslint-disable-next-line
   }, [])
 

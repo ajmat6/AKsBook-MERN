@@ -1,12 +1,20 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
+
 
 const Navbar = () => {
+  let navigate = useNavigate();
+
   let location = useLocation();
 
   useEffect(() => {
     // console.log(location.pathname); // will give the path of the current location (\, \about etc)
   }, [location]);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,10 +48,12 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-            <form className="d-flex" role="search">
+
+            {/* When auth token is present in the localStorage then don't show login and signup, show logout */}
+            {!localStorage.getItem('token')? <form className="d-flex" role="search">
               <Link className="btn btn-secondary mx-1" to="/login" role="button">Login</Link>
               <Link className="btn btn-secondary mx-1" to="/signup" role="button">Sign Up</Link>
-            </form>
+            </form> : <button className="btn btn-secondary mx-1" onClick={logout}>Logout</button>}
           </div>
         </div>
       </nav>
