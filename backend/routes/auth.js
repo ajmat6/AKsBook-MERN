@@ -30,12 +30,12 @@ router.post('/createuser',[ //creating an array of the validation
         
         if(alreadyUsername)
         {
-            return res.status(400).json({error: "Username already exists"});
+            return res.status(400).json({success, error: "Username already exists"});
         }
         
         if(alreadyEmail)
         {
-            return res.status(400).json({error: "This Email is already registered, Please enter a valid Email"});
+            return res.status(400).json({success, error: "This Email is already registered, Please enter a valid Email"});
         }
 
         // Password Hashing:
@@ -65,7 +65,8 @@ router.post('/createuser',[ //creating an array of the validation
 
         const authToken = jwt.sign(data, JWT_SECRET); // here first argument is payload that you want to send to the user (here we are sending id of the user) and second argument is the secret web token
         console.log(authToken);
-        res.json({authToken});
+        success = true;
+        res.json({success,authToken});
     } catch (error) {
         console.log(error.message); //method to print the error (error.message)
         res.status(500).send("Some Internal Server Error Occured! Please try again after some times");
