@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom'
 
 function Login(props) {
     const [credentials, setcredentials] = useState({email:"", password:""});
@@ -39,7 +39,8 @@ function Login(props) {
     }
 
     return (
-        <div>
+        <div className='mt-2'>
+            <h2 className='text-center'>Login to continue to AKsBook</h2>
             <form className='container col-md-3 my-5' onSubmit={handleLoginSubmit}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
@@ -51,6 +52,11 @@ function Login(props) {
                     <input type="password" className="form-control" id="password" name='password' value={credentials.password} onChange={onChange}/>
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
+                <p className='my-3'>Don't have any account - <span>
+                <Link aria-current="page" to="/signup">
+                  Sign Up
+                </Link>
+              </span></p>
             </form>
         </div>
     )

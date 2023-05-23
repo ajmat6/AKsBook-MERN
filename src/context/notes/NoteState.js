@@ -83,7 +83,7 @@ const NoteState = (props) => {
             },
             body: JSON.stringify({title, description, tag}),
           });
-          const json = response.json(); // will parse the value as json
+          // const json = response.json(); // will parse the value as json
           // console.log(json);
 
           fetchNote();

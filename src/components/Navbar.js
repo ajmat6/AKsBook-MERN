@@ -42,10 +42,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${location.pathname === "/about"? "active" : ""}`} to="/about">
-                {/* <Link className='nav-link active' to="/about"> */}
+                {/* <Link className={`nav-link ${location.pathname === "/about"? "active" : ""}`} to="/about">
+                // <Link className='nav-link active' to="/about">
                   About
-                </Link>
+                </Link> */}
               </li>
             </ul>
 
